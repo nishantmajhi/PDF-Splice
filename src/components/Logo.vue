@@ -1,0 +1,17 @@
+<script setup>
+defineProps({ size: { type: Number, default: 26 } });
+</script>
+
+<template>
+  <svg :width="size" :height="size" viewBox="0 0 24 24" fill="none">
+    <rect x="1" y="1" width="22" height="22" rx="7" fill="#DC2626" />
+    <path d="M12 7v10M7 12h10" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+    <path
+      d="M12 3.2v1.4M12 19.4v1.4"
+      stroke="#FFFFFF"
+      stroke-width="1.3"
+      stroke-linecap="round"
+      opacity="0.7"
+    />
+  </svg>
+</template>

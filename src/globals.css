@@ -1,0 +1,867 @@
+:root {
+  --accent: #dc2626;
+  --ink: #1e2230;
+  --muted: #6b7280;
+  --muted2: #8a93a3;
+  --muted3: #9ca3af;
+  --border: #e2e5ea;
+  --border2: #d7dbe3;
+  --bg: #f9fafb;
+  --red-50: #fef2f2;
+  --red-100: #fee2e2;
+  --red-300: #fca5a5;
+  --red-400: #f87171;
+  --red-600: #dc2626;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.page {
+  padding: 32px;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Nav bar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: -32px -32px 20px -32px;
+  padding: 16px 32px;
+  background: var(--red-50);
+  border-bottom: 1px solid var(--red-100);
+  box-shadow: 0 2px 8px rgba(20, 24, 33, 0.18);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-name {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+.nav-link:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.nav-link.active {
+  color: var(--red-600);
+  border-color: var(--red-400);
+}
+
+/* Page grid */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 16px;
+  padding-top: 12px;
+  padding-bottom: 112px;
+  align-items: flex-start;
+}
+
+/* Page thumbnail */
+.page-card {
+  width: 128px;
+  height: 176px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(20, 24, 33, 0.06);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s;
+}
+.page-card:hover,
+.page-card:focus-visible {
+  border-color: var(--border2);
+  box-shadow: 0 2px 8px rgba(20, 24, 33, 0.12);
+  outline: none;
+}
+.page-card canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.page-card .skeleton {
+  position: absolute;
+  inset: 0;
+  padding: 12px;
+}
+.line {
+  height: 6px;
+  border-radius: 999px;
+  background: #e4e7ec;
+  margin-top: 6px;
+}
+.line.light {
+  background: #edeff2;
+}
+.page-num {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: #9ca5b3;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  padding-top: 10px;
+}
+
+/* Collapsed splice point */
+.gap-collapsed {
+  width: 40px;
+  height: 176px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.gap-line {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  border-left: 1px dashed var(--border2);
+  transition: border-color 0.15s;
+}
+.gap-collapsed:hover .gap-line {
+  border-color: var(--red-300);
+}
+.gap-plus {
+  position: relative;
+  z-index: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--border2);
+  color: var(--muted3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.15s;
+}
+.gap-collapsed:hover .gap-plus {
+  opacity: 1;
+  border-color: var(--red-400);
+  color: var(--red-600);
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+  transform: scale(1.1);
+}
+.gap-plus-active {
+  opacity: 1 !important;
+  background: var(--red-600) !important;
+  border-color: var(--red-600) !important;
+  color: #fff !important;
+  transform: rotate(45deg) scale(1.1);
+}
+.gap-scissor.gap-plus-active {
+  transform: scale(1.1);
+}
+
+/* Empty dropzone (active) */
+.gap-drop {
+  width: 144px;
+  height: 176px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 2px dashed var(--border2);
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 8px;
+  position: relative;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.gap-drop.dragover {
+  border-color: var(--accent);
+  background: rgba(220, 38, 38, 0.05);
+}
+.gap-drop-stacked {
+  border-color: rgba(220, 38, 38, 0.35);
+}
+.icon-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(20, 24, 33, 0.12);
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.icon-btn:hover {
+  color: var(--red-600);
+  border-color: var(--red-300);
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.2);
+}
+.hint {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.3;
+  margin: 0;
+}
+.subhint {
+  font-size: 9px;
+  color: #a0a8b4;
+  margin: 2px 0 0;
+}
+.browse-link {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+/* Filled splice point — one box per queued insert, reusing the exact same
+   .gap-drop box (size, padding, dashed border, background) so a queued
+   file and an empty dropzone are the same container. The only visual
+   difference is the border color (red instead of grey) to signal that a
+   file is queued here, and the filename is shown in plain black text. */
+.gap-drop-filled {
+  cursor: pointer;
+  padding: 0;
+  border-style: solid;
+  border-color: var(--accent);
+}
+.gap-drop-filled:hover,
+.gap-drop-filled:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+}
+.gap-drop-filled .page-card {
+  width: 100%;
+  height: 100%;
+  border: none;
+  box-shadow: none;
+  border-radius: 6px;
+}
+.gap-drop-filled {
+  cursor: grab;
+}
+.gap-drop-filled.dragging {
+  opacity: 0.4;
+}
+.gap-drop-filled.drop-target {
+  outline: 2px solid var(--red-600);
+  outline-offset: 2px;
+}
+.grip-handle {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.file-icon {
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.file-name {
+  font-size: 11px;
+  line-height: 1.3;
+  text-align: center;
+  font-weight: 500;
+  color: var(--ink);
+  word-break: break-all;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ready-badge {
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: "Courier New", monospace;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 4px;
+  padding: 2px 5px;
+  white-space: nowrap;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Remove Pages selection state */
+.remove-slot {
+  position: relative;
+}
+.remove-slot.marked .page-card {
+  opacity: 0.35;
+  border-color: var(--red-400);
+}
+.remove-badge-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(20, 24, 33, 0.12);
+  transition:
+    color 0.15s,
+    background 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.remove-badge-btn:hover {
+  color: var(--red-600);
+  border-color: var(--red-300);
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.2);
+}
+.remove-badge-btn.active {
+  background: var(--red-600);
+  border-color: var(--red-600);
+  color: #fff;
+}
+.remove-tag {
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: "Courier New", monospace;
+  color: #fff;
+  background: var(--red-600);
+  border-radius: 4px;
+  padding: 2px 5px;
+  white-space: nowrap;
+}
+
+/* Floating document dock */
+.dock {
+  position: fixed;
+  bottom: 24px;
+  left: 5%;
+  width: 90%;
+  max-width: 100%;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px -10px rgba(20, 24, 33, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  z-index: 20;
+}
+.dock-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.dock-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #f5f6f8;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dock-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.2;
+  margin: 0;
+}
+.dock-meta {
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: var(--muted2);
+  margin: 2px 0 0;
+}
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: inherit;
+  transition: filter 0.15s;
+}
+.export-btn:hover:not(:disabled) {
+  filter: brightness(0.95);
+}
+.export-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Upload empty state (no PDF loaded yet) */
+.upload-shell {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.upload-card {
+  width: 100%;
+  max-width: 420px;
+  border: 2px dashed var(--border2);
+  border-radius: 12px;
+  background: #fff;
+  padding: 48px 32px;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+.upload-card.dragover {
+  border-color: var(--accent);
+  background: rgba(220, 38, 38, 0.05);
+}
+.upload-card h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 18px;
+  margin: 12px 0 4px;
+}
+.upload-card p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 16px;
+}
+
+/* Extract-images scan progress: spinner + real progress bar instead of a
+   static "scanning N pages" line with no sense of how far along it is. */
+.scan-card {
+  width: 100%;
+  max-width: 360px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px 32px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(20, 24, 33, 0.06);
+}
+.scan-card h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 16px;
+  margin: 16px 0 20px;
+}
+.spinner {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.progress-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+.progress-label {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: "Courier New", monospace;
+}
+
+/* Merge tool: draggable thumbnail grid cards */
+.merge-card {
+  width: 128px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: grab;
+}
+.merge-card .page-card {
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s,
+    opacity 0.15s;
+}
+.merge-card:hover .page-card {
+  box-shadow: 0 4px 10px rgba(20, 24, 33, 0.12);
+}
+.merge-card.dragging {
+  cursor: grabbing;
+}
+.merge-card.dragging .page-card {
+  opacity: 0.4;
+  transform: scale(0.96);
+}
+.merge-card .icon-btn {
+  opacity: 0.85;
+}
+.merge-card:hover .icon-btn,
+.merge-card .icon-btn:hover {
+  opacity: 1;
+}
+.merge-card-name {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 2px;
+}
+.merge-card-meta {
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  color: var(--muted2);
+  margin: 0;
+  padding: 0 2px;
+}
+.merge-add-card {
+  width: 128px;
+  height: 176px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 2px dashed var(--border2);
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--muted3);
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background 0.15s;
+}
+.merge-add-card:hover {
+  border-color: var(--red-400);
+  color: var(--red-600);
+  background: rgba(220, 38, 38, 0.03);
+}
+
+/* Convert-to-PDF instructional modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 24, 33, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 16px;
+}
+.modal-card {
+  width: 100%;
+  max-width: 380px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px -10px rgba(20, 24, 33, 0.35);
+  padding: 24px;
+  position: relative;
+}
+.modal-card h3 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 16px;
+  margin: 12px 0 8px;
+}
+.modal-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+.modal-steps {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 12px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.modal-steps b {
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+}
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+.modal-btn-secondary {
+  flex: 1;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: #fff;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+.modal-btn-primary {
+  flex: 1;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: filter 0.15s;
+}
+.modal-btn-primary:hover {
+  filter: brightness(0.95);
+}
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--border2);
+  background: #fff;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(20, 24, 33, 0.12);
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.modal-close:hover {
+  color: var(--red-600);
+  border-color: var(--red-300);
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.2);
+}
+
+/* PDF insert preview dialog: same page-grid look used on the Splice /
+   Split / Merge pages, just inside a wider modal card. Sized so 5 of the
+   128px page-cards tile edge-to-edge with the same 16px gutter used
+   elsewhere, leaving no dead space to the right of the grid. */
+.modal-card-wide {
+  width: 752px;
+  max-width: 92vw;
+  max-height: 84vh;
+  overflow-y: auto;
+}
+.modal-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.modal-preview-header h3 {
+  font-size: 15px;
+  word-break: break-all;
+}
+.modal-preview-header p {
+  font-size: 12px;
+}
+.modal-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 128px);
+  justify-content: center;
+  gap: 24px 16px;
+  padding-top: 16px;
+}
+
+/* Full-size page/image viewer, opened by clicking any thumbnail. */
+.page-viewer-card {
+  width: 100%;
+  max-width: 760px;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px -10px rgba(20, 24, 33, 0.35);
+  padding: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.page-viewer-canvas-wrap {
+  width: 100%;
+  min-height: 200px;
+  max-height: 72vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page-viewer-canvas-wrap canvas,
+.page-viewer-canvas-wrap img {
+  max-width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(20, 24, 33, 0.15);
+}
+.page-viewer-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.page-viewer-count {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: "Courier New", monospace;
+  min-width: 72px;
+  text-align: center;
+}
+.page-viewer-btn {
+  min-width: 56px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: #fff;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Courier New", monospace;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background 0.15s;
+}
+.page-viewer-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(220, 38, 38, 0.05);
+}
+.page-viewer-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}

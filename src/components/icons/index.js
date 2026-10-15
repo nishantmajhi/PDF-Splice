@@ -1,0 +1,11 @@
+export { default as PlusIcon } from "./PlusIcon.vue";
+export { default as XIcon } from "./XIcon.vue";
+export { default as UploadIcon } from "./UploadIcon.vue";
+export { default as FileIcon } from "./FileIcon.vue";
+export { default as ImageIcon } from "./ImageIcon.vue";
+export { default as DocIcon } from "./DocIcon.vue";
+export { default as DownloadIcon } from "./DownloadIcon.vue";
+export { default as ScissorIcon } from "./ScissorIcon.vue";
+export { default as GripIcon } from "./GripIcon.vue";
+export { default as TrashIcon } from "./TrashIcon.vue";
+export { default as AlertIcon } from "./AlertIcon.vue";

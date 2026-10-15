@@ -1,0 +1,22 @@
+# Node dependencies
+node_modules/
+*.log
+
+# Build outputs
+dist/
+.cache/
+coverage/
+.nyc_output/
+
+# Environment files
+.env
+.env.test
+
+# IDE settings
+.vscode/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# The original src/ written out by tests/against-original.mjs
+.against-original/
